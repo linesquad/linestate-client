@@ -1,8 +1,11 @@
+import Navbar from "./components/navbar/Navbar";
+import Layout from "./ui/Wrapper";
+
 function App() {
   return (
-    <div>
-      <a href="nugo">Hello</a>
-    </div>
+    <Layout>
+      <Navbar />
+    </Layout>
   );
 }
 
