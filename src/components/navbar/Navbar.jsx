@@ -1,4 +1,5 @@
 import { useState } from "react";
+import BurgerMenu from "./BurgerMenu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,18 +59,10 @@ const Navbar = () => {
           Sign up
         </a>
       </div>
-      <div className="w-9 md:hidden" onClick={toggleBurgerMenu}>
+      <div className="w-9 md:hidden z-50" onClick={toggleBurgerMenu}>
         <img src="/menu.png" alt="burger menu" />
       </div>
-
-      {/* <div className="absolute bg-black text-white h-full w-[50%] top-0 right-[-50%]">
-        <a href="/">Home</a>
-        <a href="/">About</a>
-        <a href="/">Contact</a>
-        <a href="/">Agents</a>
-        <a href="/">Sign in</a>
-        <a href="/">Sign up</a>
-      </div> */}
+      <BurgerMenu isOpen={isOpen} />
     </nav>
   );
 };
