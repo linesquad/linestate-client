@@ -15,7 +15,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="">
+    <div className="smaller:flex smaller:flex-col">
       <div>
         {types.map((type, index) => (
           <button
@@ -24,22 +24,24 @@ const SearchBar = () => {
               query.type === type
                 ? "bg-black text-white"
                 : "bg-white text-black"
-            } px-5 py-3 border border-b-0 text-transform: capitalize border-[#999]  ${
+            } border border-b-0 text-transform: capitalize border-[#999]  ${
               index === 0 ? "rounded-tl-[5px] border-r-0" : ""
             }
-            ${index === 1 ? "border-l-0 rounded-tr-[5px]" : ""}`}
+            ${
+              index === 1 ? "border-l-0 rounded-tr-[5px]" : ""
+            } smaller:px-8 px-9 py-5`}
             onClick={() => switchType(type)}
           >
             {type}
           </button>
         ))}
       </div>
-      <form className="border border-[#999] flex justify-between h-16 g-[5px]">
+      <form className="border border-[#999] md:flex md:justify-between h-16 md:h-auto gap-[5px] flex flex-col md:flex-row">
         <input
           type="text"
           name="location"
           placeholder="City Location"
-          className="py-2 px-2 w-[200px]"
+          className="md:w-[200px] border border-[#999] w-full p-5 md:border-none"
         />
         <input
           type="number"
@@ -47,7 +49,7 @@ const SearchBar = () => {
           min={0}
           max={10000000}
           placeholder="Min Price"
-          className="py-2 px-2 w-[200px]"
+          className="md:w-[200px] border border-[#999] w-full p-5 md:border-none"
         />
         <input
           type="number"
@@ -55,9 +57,12 @@ const SearchBar = () => {
           min={0}
           max={10000000}
           placeholder="Max Price"
-          className="py-2 px-2 w-[200px]"
+          className="md:w-[200px] border border-[#999] w-full p-5 md:border-none"
         />
-        <button className="cursor-pointer bg-[#fece51] px-4">
+        <button
+          className="cursor-pointer bg-[#fece51] p-5 flex justify-center
+        "
+        >
           <img src="/search.png" alt="search" className="w-6" />
         </button>
       </form>

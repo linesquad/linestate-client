@@ -45,7 +45,7 @@ const Navbar = () => {
           </a>
         </div>
       </div>
-      <div className="md:flex flex-[2] items-center justify-end bg-[#fcf5f3] h-full hidden">
+      <div className="md:flex flex-[2] items-center justify-end  lg:bg-[#fcf5f3] lg:h-screen hidden">
         <a
           href="/"
           className="px-3 py-2 m-5 transition-all duration-400 ease-in-out hover:scale-105"
