@@ -1,5 +1,6 @@
 import Card from "../../components/card/Card";
 import Filter from "../../components/filter/Filter";
+import Map from "../../components/map/Map";
 import { listData } from "../../lib/dummydata";
 
 const ListPage = () => {
@@ -13,7 +14,9 @@ const ListPage = () => {
         ))}
       </div>
 
-      <div className="flex-[2] bg-[#fcf5f3] h-full">map</div>
+      <div className="flex-[2] h-full bg-[#fcf5f3] ">
+        <Map items={data} />
+      </div>
     </div>
   );
 };
