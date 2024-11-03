@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,13 +12,13 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between h-[100px] items-center">
       <div className="flex flex-[3] items-center gap-[50px]">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="flex font-bold gap-[10px] text-[20px] items-center transition-all duration-400 ease-in-out hover:scale-105"
         >
           <img src="/logo.png" alt="" className="w-7" />
           <span className="text-xl md:hidden lg:inline-block">LineEstate</span>
-        </a>
+        </Link>
         <div className="md:flex items-center gap-[50px] hidden md:text-base">
           <a
             href="/"
