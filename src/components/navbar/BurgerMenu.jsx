@@ -6,7 +6,7 @@ const BurgerMenu = ({ isOpen }) => {
       initial={{ opacity: 0, x: "100%" }}
       animate={isOpen ? { opacity: 1, x: "0%" } : { opacity: 0, x: "100%" }}
       transition={{ duration: 0.6 }}
-      className="bg-black text-white h-full w-[50%] fixed top-0 right-0 z-40 flex flex-col items-center pt-20"
+      className="bg-black text-white h-full w-[50%] fixed top-0 right-0 z-40 flex flex-col items-center text-2xl justify-center gap-10"
     >
       <a href="/" className="py-2">
         Home
