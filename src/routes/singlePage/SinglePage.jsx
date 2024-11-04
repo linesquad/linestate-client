@@ -35,7 +35,7 @@ const SinglePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex-[2] bg-[#fcf5f3]">
+      <div className="flex-[2] h-full bg-[#fcf5f3]">
         <div className="px-[20px] flex flex-col gap-[20px]">
           <p className="font-bold text-lg mb-[10px]">General</p>
           <div className="flex flex-col gap-[20px] px-[20px] py-[10px] bg-white rounded-[10px]">
@@ -106,13 +106,13 @@ const SinglePage = () => {
           <div className="w-full h-[200px]">
             <Map items={[singlePostData]} />
           </div>
-          <div>
-            <button>
-              <img src="/chat.png" alt="" className="w-6 h-6" />
+          <div className="flex justify-between">
+            <button className="p-[20px] flex items-center gap-[5px] bg-white border border-[#fece51] rounded-[5px] cursor-pointer">
+              <img src="/chat.png" alt="" className="w-4 h-4" />
               Send a Message
             </button>
-            <button>
-              <img src="/save.png" alt="" className="w-6 h-6" />
+            <button className="p-[20px] flex items-center gap-[5px] bg-white border border-[#fece51] rounded-[5px] cursor-pointer">
+              <img src="/save.png" alt="" className="w-4 h-4" />
               Save the Place
             </button>
           </div>
