@@ -7,7 +7,7 @@ const SinglePage = () => {
       <div className="flex-[3]">
         <div className="pr-[50px]">
           <Slider images={singlePostData.images} />
-          <div className="">
+          <div className="mt-10">
             <div className="flex justify-between">
               <div className="flex flex-col gap-[20px]">
                 <h1 className="font-normal text-xl">{singlePostData.title}</h1>
