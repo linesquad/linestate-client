@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { RxAvatar } from "react-icons/rx";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const user = true;
+  const { currentUser } = useContext(AuthContext);
 
   const toggleBurgerMenu = () => {
     setIsOpen(!isOpen);
@@ -22,41 +24,45 @@ const Navbar = () => {
           <span className="text-xl md:hidden lg:inline-block">LineEstate</span>
         </Link>
         <div className="md:flex items-center gap-[50px] hidden md:text-base">
-          <a
-            href="/"
+          <Link
+            to="/home"
             className="transition-all duration-400 ease-in-out hover:scale-105"
           >
             Home
-          </a>
-          <a
-            href="/"
+          </Link>
+          <Link
+            to="/about"
             className="transition-all duration-400 ease-in-out hover:scale-105"
           >
             About
-          </a>
-          <a
-            href="/"
+          </Link>
+          <Link
+            to="/"
             className="transition-all duration-400 ease-in-out hover:scale-105"
           >
             Contact
-          </a>
-          <a
-            href="/"
+          </Link>
+          <Link
+            to="/agents"
             className="transition-all duration-400 ease-in-out hover:scale-105"
           >
             Agents
-          </a>
+          </Link>
         </div>
       </div>
-      <div className="md:flex flex-[2] items-center justify-end  lg:bg-[#fcf5f3] lg:h-screen hidden">
-        {user ? (
+      <div className="md:flex flex-[2] items-center justify-end  lg:bg-[#fcf5f3]  hidden">
+        {currentUser ? (
           <div className="flex items-center font-bold gap-5">
-            <img
-              src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              alt=""
-              className="w-10 h-10 rounded-full object-cover mr-[20px]"
-            />
-            <span>John Doe</span>
+            {currentUser.profilePicture ? (
+              <img
+                src={currentUser.profilePicture}
+                alt=""
+                className="w-10 h-10 rounded-full object-cover mr-[20px]"
+              />
+            ) : (
+              <RxAvatar className="w-10 h-10" />
+            )}
+            <span>{currentUser.username}</span>
             <Link
               to="/profile"
               className="px-3 py-3 bg-[#fece51] cursor-pointer border-none relative"
@@ -69,18 +75,18 @@ const Navbar = () => {
           </div>
         ) : (
           <>
-            <a
-              href="/"
+            <Link
+              to="/login"
               className="px-3 py-2 m-5 transition-all duration-400 ease-in-out hover:scale-105"
             >
               Sign in
-            </a>
-            <a
-              href="/"
+            </Link>
+            <Link
+              to="/register"
               className="bg-[#fece51] px-3 py-2 m-5 transition-all duration-400 ease-in-out hover:scale-105"
             >
               Sign up
-            </a>
+            </Link>
           </>
         )}
       </div>

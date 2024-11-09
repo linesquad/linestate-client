@@ -1,7 +1,9 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-const Layout = () => {
+export const Layout = () => {
   return (
     <div className="h-screen max-w-[1366px] mx-auto px-5">
       <Navbar />
@@ -9,5 +11,15 @@ const Layout = () => {
     </div>
   );
 };
+export const RequireAuth = () => {
+  const { currentUser } = useContext(AuthContext);
 
-export default Layout;
+  return !currentUser ? (
+    <Navigate to="/login" />
+  ) : (
+    <div className="h-screen max-w-[1366px] mx-auto px-5">
+      <Navbar />
+      <Outlet />
+    </div>
+  );
+};

@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
-
+import { AuthContext } from "../../context/AuthContext";
 const HomePage = () => {
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   return (
     <div className="flex flex-col md:justify-center h-screen lg:flex-row lg:gap-5">
       <div className="flex lg:flex-[3] flex-[1] justify-center">
