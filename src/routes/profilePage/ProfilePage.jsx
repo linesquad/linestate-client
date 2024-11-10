@@ -60,9 +60,12 @@ const ProfilePage = () => {
           </div>
           <div>
             <h1 className="font-light">My List</h1>
-            <button className="py-3 px-6 bg-[#fece51] cursor-pointer border-none">
+            <Link
+              to="/add"
+              className="py-3 px-6 bg-[#fece51] cursor-pointer border-none"
+            >
               Create New Post
-            </button>
+            </Link>
           </div>
           <List />
           <div>

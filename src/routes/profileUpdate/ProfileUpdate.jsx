@@ -7,10 +7,11 @@ import { RxAvatar } from "react-icons/rx";
 
 const ProfileUpdate = () => {
   const { currentUser, updateUser } = useContext(AuthContext);
-  const [avatar, setAvatar] = useState(currentUser.avatar);
+  const [avatar, setAvatar] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  console.log(avatar);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ const ProfileUpdate = () => {
         username,
         email,
         password,
-        avatar,
+        avatar: avatar[0],
       });
       updateUser(res.data);
       navigate("/profile");
@@ -74,10 +75,16 @@ const ProfileUpdate = () => {
         </form>
       </div>
       <div className="ml-8">
-        {avatar ? (
+        {avatar[0] ? (
           <img
             src={avatar}
             alt="Avatar"
+            className="w-32 h-32 rounded-full border"
+          />
+        ) : currentUser.avatar ? (
+          <img
+            src={currentUser.avatar}
+            alt="avatar"
             className="w-32 h-32 rounded-full border"
           />
         ) : (
@@ -91,7 +98,7 @@ const ProfileUpdate = () => {
             maxImageFileSize: 2000000,
             folder: "avatars",
           }}
-          setAvatar={setAvatar}
+          setState={setAvatar}
         />
       </div>
     </div>
