@@ -53,9 +53,9 @@ const Navbar = () => {
       <div className="md:flex flex-[2] items-center justify-end  lg:bg-[#fcf5f3]  hidden">
         {currentUser ? (
           <div className="flex items-center font-bold gap-5">
-            {currentUser.profilePicture ? (
+            {currentUser.avatar ? (
               <img
-                src={currentUser.profilePicture}
+                src={currentUser.avatar}
                 alt=""
                 className="w-10 h-10 rounded-full object-cover mr-[20px]"
               />
