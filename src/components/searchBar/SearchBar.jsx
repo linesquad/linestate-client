@@ -1,17 +1,22 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const types = ["buy", "rent"];
 
 const SearchBar = () => {
   const [query, setQuery] = useState({
     type: "buy",
-    location: "",
+    city: "",
     minPrice: 0,
-    maxPrice: 0,
+    maxPrice: 1000000,
   });
 
   const switchType = (val) => {
     setQuery((prev) => ({ ...prev, type: val }));
+  };
+
+  const handleChange = (e) => {
+    setQuery((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   return (
@@ -39,9 +44,10 @@ const SearchBar = () => {
       <form className="border border-[#999] md:flex md:justify-between h-16 md:h-auto gap-[5px] flex flex-col md:flex-row">
         <input
           type="text"
-          name="location"
-          placeholder="City Location"
+          name="city"
+          placeholder="city"
           className="md:w-[200px] border border-[#999] w-full p-5 md:border-none"
+          onChange={handleChange}
         />
         <input
           type="number"
@@ -50,6 +56,7 @@ const SearchBar = () => {
           max={10000000}
           placeholder="Min Price"
           className="md:w-[200px] border border-[#999] w-full p-5 md:border-none"
+          onChange={handleChange}
         />
         <input
           type="number"
@@ -58,13 +65,18 @@ const SearchBar = () => {
           max={10000000}
           placeholder="Max Price"
           className="md:w-[200px] border border-[#999] w-full p-5 md:border-none"
+          onChange={handleChange}
         />
-        <button
-          className="cursor-pointer bg-[#fece51] p-5 flex justify-center
-        "
+        <Link
+          to={`/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`}
         >
-          <img src="/search.png" alt="search" className="w-6" />
-        </button>
+          <button
+            className="cursor-pointer bg-[#fece51] p-5 flex justify-center
+        "
+          >
+            <img src="/search.png" alt="search" className="w-6" />
+          </button>
+        </Link>
       </form>
     </div>
   );

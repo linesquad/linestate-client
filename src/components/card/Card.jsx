@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 
 const Card = ({ item }) => {
+  console.log(item);
   return (
     <div className="flex gap-5 pb-[20px]">
       <Link to={`/${item.id}`} className="flex-[2] h-[200px]">
         <img
-          src={item.img}
+          src={item.images[0]}
           alt="image"
           className="w-full h-full object-cover rounded-lg"
         />
@@ -25,11 +26,11 @@ const Card = ({ item }) => {
           <div className="flex gap-[20px] text-sm">
             <div className="flex items-center gap-[5px] bg-slate-200 p-[5px] rounded-[5px]">
               <img src="/bed.png" alt="bed" className="w-4 h-4" />
-              <span className="">{item.bedroom} bedroom</span>
+              <span className="">{item.bedrooms} bedroom</span>
             </div>
             <div className="flex items-center gap-[5px] bg-slate-200 p-[5px] rounded-[5px]">
               <img src="/bath.png" alt="bed" className="w-4 h-4" />
-              <span>{item.bathroom} bathroom</span>
+              <span>{item.bathrooms} bathroom</span>
             </div>
           </div>
           <div className="flex gap-[20px]">

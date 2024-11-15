@@ -1,37 +1,44 @@
 import Slider from "../../components/slider/Slider";
-import { singlePostData, userData } from "../../lib/dummydata";
 import Map from "../../components/map/Map";
+import { useLoaderData } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 const SinglePage = () => {
+  const post = useLoaderData();
+  console.log(post);
+
   return (
     <div className="flex h-full">
       <div className="flex-[3]">
         <div className="pr-[50px]">
-          <Slider images={singlePostData.images} />
+          <Slider images={post.images} />
           <div className="mt-10">
             <div className="flex justify-between">
               <div className="flex flex-col gap-[20px]">
-                <h1 className="font-normal text-xl">{singlePostData.title}</h1>
+                <h1 className="font-normal text-xl">{post.title}</h1>
                 <div className="flex gap-[5px] items-center text-[#888] text-sm">
                   <img src="/pin.png" alt="" className="w-4 h-4" />
-                  <span>{singlePostData.address}</span>
+                  <span>{post.address}</span>
                 </div>
                 <div className="p-[5px] border rounded-[5px] bg-green-500 w-max text-xl font-light">
-                  $ {singlePostData.price}
+                  $ {post.price}
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center gap-[20px] px-[50px] border rounded-[10px] bg-green-500 font-semibold">
                 <img
-                  src={userData.img}
+                  src={post.user.avatar}
                   alt=""
                   className="w-[50px] h-[50px] rounded-full object-cover"
                 />
-                <span>{userData.name}</span>
+                <span>{post.user.username}</span>
               </div>
             </div>
-            <div className="mt-[50px] text-[#555] leading-[20px]">
-              {singlePostData.description}
-            </div>
+            <div
+              className="mt-[50px] text-[#555] leading-[20px]"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(post.postDetail.description),
+              }}
+            ></div>
           </div>
         </div>
       </div>
@@ -43,23 +50,21 @@ const SinglePage = () => {
               <img src="/utility.png" alt="" className="w-6 h-6 bg-green-500" />
               <div>
                 <span className="font-bold">Utilities</span>
-                <p className="text-sm">Renter is responsible</p>
+                <p className="text-sm">{post.postDetail.utilities}</p>
               </div>
             </div>
             <div className="flex items-center gap-[10px]">
               <img src="/pet.png" alt="" className="w-6 h-6 bg-green-500" />
               <div>
                 <span className="font-bold">Pet Policy</span>
-                <p className="text-sm">Pets Allowed</p>
+                <p className="text-sm">{post.postDetail.pet}</p>
               </div>
             </div>
             <div className="flex items-center gap-[10px]">
               <img src="/fee.png" alt="" className="w-6 h-6 bg-green-500" />
               <div>
                 <span className="font-bold">Property Fees</span>
-                <p className="text-sm">
-                  Mush have 3x the rent in total household income
-                </p>
+                <p className="text-sm">{post.postDetail.income}</p>
               </div>
             </div>
           </div>
@@ -67,15 +72,15 @@ const SinglePage = () => {
           <div className="flex justify-between">
             <div className="flex items-center gap-[10px] bg-white p-[10px] rounded-[5px]">
               <img src="/size.png" alt="" className="w-6 h-6" />
-              <span>80sqft</span>
+              <span>{post.postDetail.size} sqft</span>
             </div>
             <div className="flex items-center gap-[10px] bg-white p-[10px] rounded-[5px]">
               <img src="/bed.png" alt="" className="w-6 h-6" />
-              <span>2 beds</span>
+              <span>{post.bedrooms} beds</span>
             </div>
             <div className="flex items-center gap-[10px] bg-white p-[10px] rounded-[5px]">
               <img src="/bath.png" alt="" className="w-6 h-6" />
-              <span>1 bathroom</span>
+              <span>{post.bathrooms} bathrooms</span>
             </div>
           </div>
           <p className="font-bold text-lg mb-[10px]">Nearby places</p>
@@ -84,27 +89,27 @@ const SinglePage = () => {
               <img src="/school.png" alt="" className="w-6 h-6" />
               <div>
                 <span>School</span>
-                <p>250m away</p>
+                <p>{post.postDetail.school}m away</p>
               </div>
             </div>
             <div>
               <img src="/pet.png" alt="" className="w-6 h-6" />
               <div>
                 <span>Bus Stop</span>
-                <p>100m away</p>
+                <p>{post.postDetail.bus}m away</p>
               </div>
             </div>
             <div>
               <img src="/fee.png" alt="" className="w-6 h-6" />
               <div>
                 <span>Restaurant</span>
-                <p>200m away</p>
+                <p>{post.postDetail.restaurant}m away</p>
               </div>
             </div>
           </div>
           <p className="font-bold text-lg mb-[10px]">Location</p>
           <div className="w-full h-[200px]">
-            <Map items={[singlePostData]} />
+            <Map items={[post]} />
           </div>
           <div className="flex justify-between">
             <button className="p-[20px] flex items-center gap-[5px] bg-white border border-[#fece51] rounded-[5px] cursor-pointer">
