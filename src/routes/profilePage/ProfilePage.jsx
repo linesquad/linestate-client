@@ -1,11 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
+import { Suspense, useContext } from "react";
 import Chat from "../../components/card/Chat";
 import List from "../../components/list/List";
 import apiReq from "../../lib/apiReq";
 import { AuthContext } from "../../context/AuthContext";
 import { RxAvatar } from "react-icons/rx";
 const ProfilePage = () => {
+  const data = useLoaderData();
   const navigate = useNavigate();
   const { currentUser, updateUser } = useContext(AuthContext);
 
@@ -53,25 +54,37 @@ const ProfilePage = () => {
             </span>
             <button
               onClick={logout}
-              className="py-3 px-6 bg-[#fece51] cursor-pointer border-none"
+              className="py-3 px-6 w-fit bg-[#fece51] cursor-pointer border-none"
             >
               Logout
             </button>
           </div>
+          <Link
+            to="/add"
+            className="py-3 px-6 w-fit bg-[#fece51] cursor-pointer border-none"
+          >
+            Create New Post
+          </Link>
           <div>
             <h1 className="font-light">My List</h1>
-            <Link
-              to="/add"
-              className="py-3 px-6 bg-[#fece51] cursor-pointer border-none"
-            >
-              Create New Post
-            </Link>
           </div>
-          <List />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Await resolve={data.postResponse} errorElement={<p>Error</p>}>
+              {(postResponse) => (
+                <List posts={postResponse.data} checker="list" />
+              )}
+            </Await>
+          </Suspense>
           <div>
             <h1 className="font-light">Saved List</h1>
           </div>
-          <List />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Await resolve={data.postResponse} errorElement={<p>Error</p>}>
+              {(postResponse) => (
+                <List posts={postResponse.data} checker="saved" />
+              )}
+            </Await>
+          </Suspense>
         </div>
       </div>
       <div className="flex-[2] bg-[#fcf5f3] h-full">

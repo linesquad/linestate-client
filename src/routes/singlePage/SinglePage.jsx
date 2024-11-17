@@ -1,11 +1,30 @@
 import Slider from "../../components/slider/Slider";
 import Map from "../../components/map/Map";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, redirect } from "react-router-dom";
+import apiReq from "../../lib/apiReq.js";
 import DOMPurify from "dompurify";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const SinglePage = () => {
   const post = useLoaderData();
-  console.log(post);
+  const [saved, setSaved] = useState(post.isSaved);
+  const { currentUser } = useContext(AuthContext);
+
+  const handleSave = async () => {
+    setSaved((prev) => !prev);
+    if (!currentUser) {
+      redirect("/login");
+    }
+    try {
+      await apiReq.post(`/users/save`, {
+        postId: post.id,
+      });
+    } catch (error) {
+      console.log(error);
+      setSaved((prev) => !prev);
+    }
+  };
 
   return (
     <div className="flex h-full">
@@ -116,9 +135,12 @@ const SinglePage = () => {
               <img src="/chat.png" alt="" className="w-4 h-4" />
               Send a Message
             </button>
-            <button className="p-[20px] flex items-center gap-[5px] bg-white border border-[#fece51] rounded-[5px] cursor-pointer">
+            <button
+              onClick={handleSave}
+              className="p-[20px] flex items-center gap-[5px] bg-white border border-[#fece51] rounded-[5px] cursor-pointer"
+            >
               <img src="/save.png" alt="" className="w-4 h-4" />
-              Save the Place
+              {saved ? "Place Saved" : "Save the Place"}
             </button>
           </div>
         </div>
