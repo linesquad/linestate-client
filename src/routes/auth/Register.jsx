@@ -16,17 +16,15 @@ const Register = () => {
 
     try {
       setIsLoading(true);
-      const res = await apiReq.post("/auth/register", {
+      await apiReq.post("/auth/register", {
         username,
         email,
         password,
       });
-      console.log(res);
 
       e.target.reset();
       navigate("/login");
     } catch (error) {
-      console.log(error);
       setError(error.response.data.message);
     } finally {
       setIsLoading(false);

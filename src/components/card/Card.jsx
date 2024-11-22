@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const Card = ({ item }) => {
-  console.log(item);
   return (
     <div className="flex gap-5 pb-[20px]">
       <Link to={`/${item.id}`} className="flex-[2] h-[200px]">

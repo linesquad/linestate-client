@@ -14,7 +14,6 @@ const ProfilePage = () => {
     try {
       const res = await apiReq.post("/auth/logout");
       updateUser(null);
-      console.log(res.data);
       navigate("/login");
     } catch (error) {
       console.log(error);
@@ -89,7 +88,11 @@ const ProfilePage = () => {
       </div>
       <div className="flex-[2] bg-[#fcf5f3] h-full">
         <div className="px-[20px]">
-          <Chat />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Await resolve={data.chatResponse} errorElement={<p>Error</p>}>
+              {(chatResponse) => <Chat chats={chatResponse.data} />}
+            </Await>
+          </Suspense>
         </div>
       </div>
     </div>

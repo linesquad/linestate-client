@@ -3,7 +3,6 @@ import "leaflet/dist/leaflet.css";
 import Pin from "../pin/Pin";
 
 const Map = ({ items }) => {
-  console.log(items);
   return (
     <MapContainer
       center={

@@ -17,7 +17,6 @@ const NewPostPage = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
-    console.log(inputs);
     try {
       setLoading(true);
       const response = await apiReq.post("posts", {
@@ -45,7 +44,6 @@ const NewPostPage = () => {
           restaurant: parseInt(inputs.restaurant),
         },
       });
-      console.log("Post created:", response.data);
       navigate("/" + response.data._id);
     } catch (error) {
       console.error("Error creating post:", error);

@@ -1,7 +1,6 @@
 import Card from "../card/Card";
 
 const List = ({ posts, checker }) => {
-  console.log(posts);
   return (
     <div className="flex flex-col gap-[50px]">
       {checker == "saved"
