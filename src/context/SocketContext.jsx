@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    setSocket(io("https://linestatetest-b8bc3b460ebf.herokuapp.com"));
+    setSocket(io("http://localhost:8000"));
   }, []);
 
   useEffect(() => {
