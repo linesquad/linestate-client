@@ -1,15 +1,23 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import apiReq from "../../lib/apiReq";
 import { format } from "timeago.js";
+import { SocketContext } from "../../context/SocketContext";
+import useNotificationStore from "../../lib/notificationStore";
 
 const Chat = ({ chats }) => {
   const [chat, setChat] = useState(null);
-  console.log(chat);
   const { currentUser } = useContext(AuthContext);
+  const { socket } = useContext(SocketContext);
+  const messageEndRef = useRef(null);
+
+  const decrease = useNotificationStore((state) => state.decrease);
   const handleOpenChat = async (chatId, receiver) => {
     try {
       const res = await apiReq.get(`/chats/${chatId}`);
+      if (!res.data.seenBy.includes(currentUser.id)) {
+        decrease();
+      }
       setChat({ ...res.data, receiver });
     } catch (error) {
       console.log(error);
@@ -29,33 +37,77 @@ const Chat = ({ chats }) => {
         messages: [...prev.messages, res.data],
       }));
       e.target.reset();
+      socket.emit("sendMessage", {
+        receiverId: chat.receiver.id,
+        data: res.data,
+      });
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const read = async () => {
+      try {
+        await apiReq.put(`/chats/read/${chat.id}`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (chat && socket) {
+      socket.on("getMessage", (data) => {
+        if (chat.id === data.chatId) {
+          setChat((prev) => ({
+            ...prev,
+            messages: [...prev.messages, data],
+          }));
+          read();
+        }
+      });
+    }
+
+    return () => {
+      socket?.off("getMessage");
+    };
+  }, [socket, chat]);
+
+  useEffect(() => {
+    if (messageEndRef.current) {
+      const chatContainer = messageEndRef.current.parentElement;
+      chatContainer.scrollTo({
+        top: chatContainer.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [chat]);
+
   if (!chats) return null;
-  console.log(chats);
   return (
     <div className="h-full flex flex-col rounded-md">
       <div className="flex-[1] flex flex-col gap-5 p-5 rounded-md">
         <h1 className="font-light">Messages</h1>
-        {chats.map((chat) => (
+        {chats.map((c) => (
           <div
-            onClick={() => handleOpenChat(chat.id, chat.receiver)}
-            key={chat.id}
-            className={`bg-white p-5 rounded-[10px] flex items-center gap-5 cursor-pointer ${
-              chat.seenBy.includes(currentUser.id)
-                ? "bg-white"
-                : "bg-[#f7c14b85]"
-            }`}
+            className="p-5 rounded-[10px] flex items-center gap-5 cursor-pointer"
+            key={c.id}
+            style={{
+              backgroundColor:
+                c.seenBy.includes(currentUser.id) || chat?.id == c.id
+                  ? "white"
+                  : "#fecd514e",
+            }}
+            onClick={() => {
+              handleOpenChat(c.id, c.receiver);
+            }}
           >
             <img
-              src={chat.receiver.avatar || "/avatar.png"}
+              src={c.receiver.avatar || "/avatar.png"}
               alt=""
               className="w-10 h-10 rounded-full object-cover"
             />
-            <span className="font-bold">{chat.receiver.username}</span>
-            <p>{chat.lastMessage}</p>
+            <span className="font-bold">{c.receiver.username}</span>
+            <p>{c.lastMessage}</p>
           </div>
         ))}
       </div>
@@ -74,7 +126,7 @@ const Chat = ({ chats }) => {
               X
             </span>
           </div>
-          <div className="h-[350px] p-5 flex flex-col gap-5 overflow-y-scroll">
+          <div className="h-[350px] p-5 flex flex-col gap-5 overflow-y-auto">
             {chat.messages.map((message) => (
               <div
                 key={message.id}
@@ -90,6 +142,7 @@ const Chat = ({ chats }) => {
                 </span>
               </div>
             ))}
+            <div ref={messageEndRef}></div>
           </div>
           <form
             onSubmit={handleSubmit}

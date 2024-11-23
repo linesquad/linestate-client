@@ -21,6 +21,9 @@ function App() {
       element: <Layout />,
       children: [
         { index: true, element: <HomePage /> },
+        { path: "/home", element: <HomePage /> },
+        { path: "/about", element: <HomePage /> },
+        { path: "/agents", element: <HomePage /> },
         { path: "/register", element: <Register /> },
         { path: "/login", element: <Login /> },
         { path: "/list", element: <ListPage />, loader: listPageLoader },

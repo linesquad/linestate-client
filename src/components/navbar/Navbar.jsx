@@ -1,17 +1,25 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { RxAvatar } from "react-icons/rx";
+import useNotificationStore from "../../lib/notificationStore";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
 
+  const fetch = useNotificationStore((state) => state.fetch);
+  const number = useNotificationStore((state) => state.number);
+
   const toggleBurgerMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
 
   return (
     <nav className="flex justify-between h-[100px] items-center">
@@ -67,9 +75,11 @@ const Navbar = () => {
               to="/profile"
               className="px-3 py-3 bg-[#fece51] cursor-pointer border-none relative"
             >
-              <div className="absolute top-[-8px] right-[-8px] bg-red-600 text-white rounded-full w-[26px] h-[26px] flex items-center justify-center">
-                3
-              </div>
+              {number > 0 && (
+                <div className="absolute top-[-8px] right-[-8px] bg-red-600 text-white rounded-full w-[26px] h-[26px] flex items-center justify-center">
+                  {number}
+                </div>
+              )}
               <span>Profile</span>
             </Link>
           </div>
